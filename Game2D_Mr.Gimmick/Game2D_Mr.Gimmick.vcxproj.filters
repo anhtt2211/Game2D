@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="WinMain">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resources\Images">
+      <UniqueIdentifier>{a6afc7bd-aae8-4b3b-b876-7d2363e1bc4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Gimmick">
+      <UniqueIdentifier>{5389fe56-0158-441e-a954-5dfd14d7c225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Enemies_Bosses">
+      <UniqueIdentifier>{9de5070d-2288-46f8-b155-5f5ccd9645ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Miscellaneous">
+      <UniqueIdentifier>{aacfea36-11ba-4dba-949b-ba73cc1e4f51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Tilesets">
+      <UniqueIdentifier>{e366a14c-bed1-45f8-81ff-473fb5a8e039}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Resource\Gimmick\Gimmick.png">
+      <Filter>Resources\Images\Gimmick</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Enemies and Bosses\Boss.png">
+      <Filter>Resources\Images\Enemies_Bosses</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Enemies and Bosses\Enemies .png">
+      <Filter>Resources\Images\Enemies_Bosses</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\Endings.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\Hazards_and_Interactables.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\Intro.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\intro1.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\ItemsAndHUD.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\Map.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\PassiveCreatutres.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Miscellaneous\Treasures.png">
+      <Filter>Resources\Images\Miscellaneous</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State1.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State2.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State3.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State4.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State5.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State6.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="..\..\..\Resource\Tilesets\State7.png">
+      <Filter>Resources\Images\Tilesets</Filter>
+    </Image>
+    <Image Include="Resources\Gimmick\brick.png">
+      <Filter>Resources\Images\Gimmick</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>WinMain</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

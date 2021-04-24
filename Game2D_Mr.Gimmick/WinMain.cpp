@@ -8,6 +8,10 @@
 #include <stdarg.h>
 #include <time.h>
 #include <stdlib.h>
+#include "Game.h"
+#include "Gimmick.h"
+#include "Textures.h"
+#include "CKeyEventHandler.h"
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
@@ -17,18 +21,12 @@
 
 #define D3DCOLOR_WHITE D3DCOLOR_XRGB(255, 255, 255)
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(200,200,255)
 
 #define MAX_FRAME_RATE 120
 
-LPDIRECT3D9 d3d = NULL;						// Direct3D handle
-LPDIRECT3DDEVICE9 d3ddv = NULL;				// Direct3D device object
-
-LPDIRECT3DSURFACE9 backBuffer = NULL;
 int BackBufferWidth = 0;
 int BackBufferHeight = 0;
-
-LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D images 
 
 LPDIRECT3DTEXTURE9 texGimmick;
 #define GIMMICK_TEXTURE_PATH "./Resources/Images/Gimmick/Gimmick.png"
@@ -38,68 +36,34 @@ LPDIRECT3DTEXTURE9 texGimmick;
 #define	GIMMICK_START_VX 0.2f
 #define	GIMMICK_WIDTH 16.0f
 
+#define ID_TEX_GIMMICK 0
 
-//#define _W(x)  __W(x)
-//#define __W(x)  L##x\
-//
-//#define VA_PRINTS(s) {				\
-//		va_list argp;				\
-//		va_start(argp, fmt);		\
-//		vswprintf_s(s, fmt, argp);	\
-//		va_end(argp);				\
-//}	
-//
-//void DebugOut(wchar_t* fmt, ...)
-//{
-//	wchar_t s[4096];
-//	VA_PRINTS(s);
-//	OutputDebugString(s);
-//}
+CGame* game;
+CGimmick* gimmick;
 
-void InitDirectX(HWND hWnd)
-{
-	d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
-	D3DPRESENT_PARAMETERS d3dpp;
-
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dpp.BackBufferCount = 1;
-
-	// retrieve window width & height so that we can create backbuffer height & width accordingly 
-	RECT r;
-	GetClientRect(hWnd, &r);
-
-	BackBufferWidth = r.right + 1;
-	BackBufferHeight = r.bottom + 1;
-
-	d3dpp.BackBufferHeight = BackBufferHeight;
-	d3dpp.BackBufferWidth = BackBufferWidth;
-
-	d3d->CreateDevice(
-		D3DADAPTER_DEFAULT,			// use default video card in the system, some systems have more than one video cards
-		D3DDEVTYPE_HAL,				// HAL = Hardware Abstraction Layer - a "thin" software layer to allow application to directly interact with video card hardware
-		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp,
-		&d3ddv);
-
-	if (d3ddv == NULL)
-	{
-		//DebugOut(L"[ERROR] CreateDevice failed\n %s %d", __FILE__, __LINE__);
-		return;
+class CKeyGimmickHandler : public CKeyEventHandler {
+public:
+	void OnKeyDown(int keycode) {
+		if (game->IsKeyDown(DIK_SPACE)) {
+			gimmick->OnKeyDown(GIMMICK_STATE_JUMP);
+		}
 	}
 
-	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-
-	//Initialize Direct3DX helper library
-	D3DXCreateSprite(d3ddv, &spriteHandler);
-
-	//DebugOut("[INFO] InitDirectX OK\n");
-}
+	void OnKeyUp(int keycode){}
+	void KeyState(BYTE* states) {
+		if (game->IsKeyDown(DIK_RIGHT)) {
+			gimmick->SetState(GIMMICK_STATE_WALKING_RIGHT);
+		}
+		else if (game->IsKeyDown(DIK_LEFT)) {
+			gimmick->SetState(GIMMICK_STATE_WALKING_LEFT);
+		}
+		else {
+			gimmick->SetState(GIMMICK_STATE_IDLE);
+		}
+	}
+};
+CKeyGimmickHandler* keyHandler = new CKeyGimmickHandler();
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -162,33 +126,49 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 void LoadResources()
 {
-	HRESULT result = D3DXCreateTextureFromFileEx(
-		d3ddv,								// Pointer to Direct3D device object
-		GIMMICK_TEXTURE_PATH,					// Path to the image to load
-		D3DX_DEFAULT_NONPOW2, 				// Auto texture width (get from file)
-		D3DX_DEFAULT_NONPOW2, 				// Auto texture height (get from file)
-		1,
-		D3DUSAGE_DYNAMIC,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0, 0, 255),		// Transparent color
-		NULL,
-		NULL,
-		&texGimmick);
+	CTextures* textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
 
-	if (result != D3D_OK)
-	{
-		//DebugOut(L"[ERROR] CreateTextureFromFileEx %s failed\n", BRICK_TEXTURE_PATH);
-		return;
-	}
+	CSprites* sprites = CSprites::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
 
-	//DebugOut(L"[INFO] Texture loaded Ok: %s \n", BRICK_TEXTURE_PATH);
+	LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
+
+	//walking right
+	sprites->Add(10001, 0, 23, 20, 45, texGimmick);
+	sprites->Add(10002, 19, 23, 39, 45, texGimmick);
+	sprites->Add(10003, 37, 23, 57, 45, texGimmick);
+	sprites->Add(10004, 56, 23, 76, 45, texGimmick);
+	sprites->Add(10005, 77, 23, 97, 45, texGimmick);
+	sprites->Add(10006, 97, 23, 117, 45, texGimmick);
+	//walking left
+
+
+	LPANIMATION ani;
+	ani = new CAnimation(100);
+	ani->Add(10001);
+	ani->Add(10002);
+	ani->Add(10003);
+	ani->Add(10004);
+	ani->Add(10005);
+	ani->Add(10006);
+	animations->Add(500, ani);	//walking right
+
+	ani = new CAnimation(100);
+	ani->Add(10001);
+	animations->Add(501, ani);	//idle right
+
+
+	gimmick = new CGimmick();
+	CGimmick::AddAnimation(501);	//idle right
+	CGimmick::AddAnimation(500);	//walking right
+
+	gimmick->SetPosition(0.0f, 100.0f);
 }
+
 void Update(DWORD dt)
 {
-
+	gimmick->Update(dt);
 }
 
 /*
@@ -198,20 +178,19 @@ void Update(DWORD dt)
 
 void Render()
 {
+	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
+	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
+	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
 	if (d3ddv->BeginScene())
 	{
 		// Clear the whole window with a color
-		d3ddv->ColorFill(backBuffer, NULL, BACKGROUND_COLOR);
+		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		D3DXVECTOR3 p(GIMMICK_START_X, GIMMICK_START_Y, 0);
-		RECT r;
-		r.left = 122;
-		r.top = 71;
-		r.right = 142;
-		r.bottom = 101;
-		spriteHandler->Draw(texGimmick, &r, NULL, &p, D3DCOLOR_WHITE);
+		
+		gimmick->Render();
 
 		//DebugOutTitle(L"%s (%0.1f,%0.1f) v:%0.1f", WINDOW_TITLE, GIMMICK_START_X, GIMMICK_START_Y, GIMMICK_START_VX);
 
@@ -221,6 +200,7 @@ void Render()
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
+
 int Run()
 {
 	MSG msg;
@@ -247,6 +227,7 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
+			game->ProcessKeyboard();
 			Update(dt);
 			Render();
 		}
@@ -257,25 +238,20 @@ int Run()
 	return 1;
 }
 
-void CleanUp()
-{
-	if (texGimmick != NULL) texGimmick->Release();
-	if (spriteHandler != NULL) spriteHandler->Release();
-	if (backBuffer != NULL)backBuffer->Release();
-	if (d3ddv != NULL)d3ddv->Release();
-	if (d3d != NULL)d3d->Release();
-	//DebugOut(L"[INFO] Cleanup Ok\n");
-}
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hwnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (hwnd == 0) return 0;
+	
+	game = CGame::GetInstance();
+	game->Init(hwnd);
+	
 
-	InitDirectX(hwnd);
+	game->InitKeyboard(keyHandler);
+
+
 	LoadResources();
 	Run();
-	CleanUp();
+
 	return 0;
 }

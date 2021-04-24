@@ -24,6 +24,21 @@
     <Filter Include="Resources\Images\Tilesets">
       <UniqueIdentifier>{e366a14c-bed1-45f8-81ff-473fb5a8e039}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{902fd375-50eb-40ca-b841-d27d85e3538c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KeyBoard">
+      <UniqueIdentifier>{4cbc4044-18c5-4d10-ae33-5132acbee2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{15c94c85-0ee9-4f13-a4ed-c34ddfd4f3f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Animation">
+      <UniqueIdentifier>{749789f9-1bda-4bc4-b169-95d318694dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Gimmick">
+      <UniqueIdentifier>{bde140b7-1379-48d7-a8ec-c019bd107590}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Resource\Gimmick\Gimmick.png">
@@ -88,5 +103,40 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>WinMain</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Object\Gimmick</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyEventHandler.h">
+      <Filter>KeyBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>FrameWork\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>FrameWork\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Gimmick.h">
+      <Filter>Object\Gimmick</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

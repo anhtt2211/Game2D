@@ -39,6 +39,12 @@
     <Filter Include="Object\Gimmick">
       <UniqueIdentifier>{bde140b7-1379-48d7-a8ec-c019bd107590}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Camera">
+      <UniqueIdentifier>{4c00fa9c-7a9c-4934-8cc8-628f22f7d467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Background">
+      <UniqueIdentifier>{f890b465-255e-4c0b-8479-a33d3efef3a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Resource\Gimmick\Gimmick.png">
@@ -98,6 +104,9 @@
     <Image Include="Resources\Gimmick\brick.png">
       <Filter>Resources\Images\Gimmick</Filter>
     </Image>
+    <Image Include="Resources\Images\Gimmick\bg1.png">
+      <Filter>Resources\Images\Gimmick</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -114,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="Gimmick.cpp">
       <Filter>Object\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>FrameWork\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>WinMain</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>WinMain</Filter>
@@ -135,6 +150,10 @@
     <ClInclude Include="Gimmick.h">
       <Filter>Object\Gimmick</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>FrameWork\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h">
       <Filter>WinMain</Filter>
     </ClInclude>

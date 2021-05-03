@@ -16,11 +16,11 @@ void CSprite::Draw(float x, float y)
 	CGame* game = CGame::GetInstance();
 	if (x > 0)
 	{
-		game->Draw(x, y, texture, left, top, right, bottom);
+		game->DrawFlip(x, y, texture, left, top, right, bottom, 1.0f, 1.0f);
 	}
 	else
 	{
-		game->DrawFlip(x, y, texture, left, top, right, bottom,-1.0f,1.0f);
+		game->DrawFlip(x, y, texture, left, top, right, bottom, -1.0f, 1.0f);
 	}
 }
 

@@ -36,7 +36,7 @@ public:
 		return this->x;
 	}
 	float GetY() {
-		this->y;
+		return this->y;
 	}
 
 	static void AddAnimation(int aniID);

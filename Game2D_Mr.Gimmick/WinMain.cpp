@@ -11,12 +11,13 @@
 #include "Gimmick.h"
 #include "Textures.h"
 #include "CKeyEventHandler.h"
+#include "Debug.h"
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
 
-#define SCREEN_WIDTH 640.0f
-#define SCREEN_HEIGHT 480.0f
+#define SCREEN_WIDTH 360
+#define SCREEN_HEIGHT 240
 
 #define D3DCOLOR_WHITE D3DCOLOR_XRGB(255, 255, 255)
 
@@ -36,10 +37,15 @@ LPDIRECT3DTEXTURE9 texGimmick;
 #define	GIMMICK_WIDTH 16.0f
 
 #define ID_TEX_GIMMICK 0
+#define ID_BACKGROUND 1
+
+D3DXVECTOR2 mainPlayer;
+D3DXVECTOR2 mapPos;
+D3DXVECTOR2 mapDimen;
 
 CGame* game;
 CGimmick* gimmick;
-
+LPDIRECT3DTEXTURE9 texBg;
 
 class CKeyGimmickHandler : public CKeyEventHandler {
 public:
@@ -131,12 +137,13 @@ void LoadResources()
 {
 	CTextures* textures = CTextures::GetInstance();
 	textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
+	textures->Add(ID_BACKGROUND, "./Resources/Images/Gimmick/bg1.png", D3DCOLOR_XRGB(0, 0, 255));
 
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 
 	LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
-
+	texBg = textures->Get(ID_BACKGROUND);
 	//walking right
 	sprites->Add(10001, 0, 23, 20, 45, texGimmick);
 	sprites->Add(10002, 19, 23, 39, 45, texGimmick);
@@ -193,7 +200,6 @@ void LoadResources()
 	ani->Add(10021);
 	animations->Add(505, ani);	//jumping left
 
-
 	gimmick = new CGimmick();
 	CGimmick::AddAnimation(500);	//idle right
 	CGimmick::AddAnimation(501);	//idle left
@@ -208,8 +214,17 @@ void LoadResources()
 void Update(DWORD dt)
 {
 	gimmick->Update(dt);
+	float x = gimmick->GetX();
+	float y = gimmick->GetY();
+	mainPlayer = game->GetInstance()->CamToWorld(x, y);
+	mapPos = D3DXVECTOR2(0, 384);
+	mapDimen = D3DXVECTOR2(1024, 384);
+	game->UpdateCam(mainPlayer, mapPos, mapDimen);
+	D3DXVECTOR2 temp = game->GetPosition();
+	gimmick->SetPosition(mainPlayer.x - temp.x, y);
+	//DebugOutTitle("%f, %f", mainPlayer.y,game->GetPosition().y);
 }
-
+	
 /*
 	Render a frame
 	IMPORTANT: world status must NOT be changed during rendering
@@ -220,7 +235,7 @@ void Render()
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
-	if (d3ddv->BeginScene())
+	if (d3ddv->BeginScene() == D3D_OK)
 	{
 		// Clear the whole window with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
@@ -229,8 +244,13 @@ void Render()
 
 		D3DXVECTOR3 p(GIMMICK_START_X, GIMMICK_START_Y, 0);
 		
+		RECT cam = game->GetCamBound();
+		float bgX = 0;
+		float bgY = mapDimen.y - cam.bottom;
+		cam.top = mapDimen.y - cam.top;
+		cam.bottom = cam.top + game->GetScreenHeight();
+		game->Draw(0, 0, texBg, cam.left, cam.top, cam.right, cam.bottom);
 		gimmick->Render();
-
 		//DebugOutTitle(L"%s (%0.1f,%0.1f) v:%0.1f", WINDOW_TITLE, GIMMICK_START_X, GIMMICK_START_Y, GIMMICK_START_VX);
 
 		spriteHandler->End();
@@ -276,18 +296,15 @@ int Run()
 
 	return 1;
 }
-
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hwnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 	
 	game = CGame::GetInstance();
 	game->Init(hwnd);
-	
-
+	SetDebugWindow(hwnd);
+	game->SetCamPosition(0, game->GetScreenHeight());
 	game->InitKeyboard(keyHandler);
-
 
 	LoadResources();
 	Run();

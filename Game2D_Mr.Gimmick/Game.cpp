@@ -49,6 +49,9 @@ void CGame::Init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
+	screen_width =	r.right;
+	screen_height = r.bottom;
+	cam = new CCamera(screen_width, screen_height);
 
 	//OutputDebugString(L"[INFO] InitGame done;\n");
 }

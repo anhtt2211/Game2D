@@ -6,6 +6,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include "CKeyEventHandler.h"
+#include "Camera.h"
 
 #define KEYBOARD_BUFFER_SIZE 1024
 
@@ -27,6 +28,10 @@ class CGame
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 
 	LPKEYEVENTHANDLER keyHandler;
+
+	CCamera* cam;
+	int screen_width;
+	int screen_height;
 public:
 	void InitKeyboard(LPKEYEVENTHANDLER handler);
 	void Init(HWND hWnd);
@@ -34,7 +39,14 @@ public:
 
 	int IsKeyDown(int key);
 	void ProcessKeyboard();
-
+	D3DXVECTOR2 GetPosition() { return cam->GetPosition(); }
+	void SetCamPosition(float x, float y) { cam->SetPosition(x, y); }
+	RECT GetCamBound() { return cam->GetBound(); }
+	void UpdateCam(D3DXVECTOR2 mainPlayer, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen) { cam->Update(mainPlayer, mapPos, mapDimen);}
+	D3DXVECTOR2 CamToWorld(float x, float y) { return cam->CamToWorld(x, y); }
+	D3DXVECTOR2 WorldToCam(float x, float y) { return cam->WorldToCam(x, y); }
+	int GetScreenWidth() { return screen_width; }
+	int GetScreenHeight() { return screen_height; }
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() {
 		return this->d3ddv;
 	}
@@ -46,7 +58,6 @@ public:
 	}
 
 	static CGame* GetInstance();
-
 	~CGame();
 };
 

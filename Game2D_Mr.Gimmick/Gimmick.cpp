@@ -1,5 +1,6 @@
 #include "Gimmick.h"
 #include <dinput.h>
+#include "Debug.h"
 
 CGimmick::CGimmick() {
 	CGameObject();
@@ -14,9 +15,7 @@ void CGimmick::Update(DWORD dt) {
 	{
 		vy = 0; y = 100.0f;
 	}
-
-	// simple screen edge collision!!!
-	if (vx > 0 && x > 290) x = 290;
+	if (vx > 0 && x > 360) x = 360;
 	if (vx < 0 && x < 0) x = 0;
 }
 

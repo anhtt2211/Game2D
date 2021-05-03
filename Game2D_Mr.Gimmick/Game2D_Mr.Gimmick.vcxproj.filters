@@ -106,9 +106,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>FrameWork\Animation</Filter>
     </ClCompile>
@@ -118,6 +115,9 @@
     <ClCompile Include="Gimmick.cpp">
       <Filter>Object\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>WinMain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -125,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="CKeyEventHandler.h">
       <Filter>KeyBoard</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>FrameWork\Animation</Filter>
@@ -137,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="Gimmick.h">
       <Filter>Object\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>WinMain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

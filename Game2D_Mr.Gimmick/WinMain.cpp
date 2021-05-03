@@ -1,7 +1,6 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
 #include <signal.h>
 #include <string.h>
 #include <stdio.h>
@@ -16,8 +15,8 @@
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 640.0f
+#define SCREEN_HEIGHT 480.0f
 
 #define D3DCOLOR_WHITE D3DCOLOR_XRGB(255, 255, 255)
 
@@ -45,8 +44,12 @@ CGimmick* gimmick;
 class CKeyGimmickHandler : public CKeyEventHandler {
 public:
 	void OnKeyDown(int keycode) {
-		if (game->IsKeyDown(DIK_SPACE)) {
-			gimmick->OnKeyDown(GIMMICK_STATE_JUMP);
+		switch (keycode)
+		{
+		case DIK_SPACE:
+			gimmick->SetState(GIMMICK_STATE_JUMP);
+		default:
+			break;
 		}
 	}
 
@@ -142,7 +145,16 @@ void LoadResources()
 	sprites->Add(10005, 77, 23, 97, 45, texGimmick);
 	sprites->Add(10006, 97, 23, 117, 45, texGimmick);
 	//walking left
+	sprites->Add(10010, 0, 23, 20, 45, texGimmick);
+	sprites->Add(10011, 19, 23, 39, 45, texGimmick);
+	sprites->Add(10012, 37, 23, 57, 45, texGimmick);
+	sprites->Add(10013, 56, 23, 76, 45, texGimmick);
+	sprites->Add(10014, 77, 23, 97, 45, texGimmick);
+	sprites->Add(10015, 97, 23, 117, 45, texGimmick);
 
+	//jumping right
+	sprites->Add(10020, 1, 45, 20, 71, texGimmick);
+	sprites->Add(10021, 20, 45, 40, 71, texGimmick);
 
 	LPANIMATION ani;
 	ani = new CAnimation(100);
@@ -152,18 +164,45 @@ void LoadResources()
 	ani->Add(10004);
 	ani->Add(10005);
 	ani->Add(10006);
-	animations->Add(500, ani);	//walking right
+	animations->Add(502, ani);	//walking right
+
+	ani = new CAnimation(100);
+	ani->Add(10010);
+	ani->Add(10011);
+	ani->Add(10012);
+	ani->Add(10013);
+	ani->Add(10014);
+	ani->Add(10015);
+	animations->Add(503, ani);	//walking left
 
 	ani = new CAnimation(100);
 	ani->Add(10001);
-	animations->Add(501, ani);	//idle right
+	animations->Add(500, ani);	//idle right
+
+	ani = new CAnimation(100);
+	ani->Add(10001);
+	animations->Add(501, ani);	//idle left
+
+	ani = new CAnimation(100);
+	ani->Add(10020);
+	ani->Add(10021);
+	animations->Add(504, ani);	//jumping right
+
+	ani = new CAnimation(100);
+	ani->Add(10020);
+	ani->Add(10021);
+	animations->Add(505, ani);	//jumping left
 
 
 	gimmick = new CGimmick();
-	CGimmick::AddAnimation(501);	//idle right
-	CGimmick::AddAnimation(500);	//walking right
+	CGimmick::AddAnimation(500);	//idle right
+	CGimmick::AddAnimation(501);	//idle left
+	CGimmick::AddAnimation(502);	//walking right
+	CGimmick::AddAnimation(503);	//walking left
+	CGimmick::AddAnimation(504);	//jumping right
+	CGimmick::AddAnimation(505);	//jumping left
 
-	gimmick->SetPosition(0.0f, 100.0f);
+	gimmick->SetPosition(100.0f, 100.0f);
 }
 
 void Update(DWORD dt)

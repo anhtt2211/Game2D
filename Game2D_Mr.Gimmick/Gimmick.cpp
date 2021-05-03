@@ -12,12 +12,22 @@ void CGimmick::Update(DWORD dt) {
 	vy += GIMMICK_GRAVITY;
 	if (y > 100)
 	{
-		vy = 0; y = 100.0f;
+		vy = 0;
+		y = 100.0f;
 	}
+	if (y < 0)
+		y = 0;
 
 	// simple screen edge collision!!!
-	if (vx > 0 && x > 290) x = 290;
-	if (vx < 0 && x < 0) x = 0;
+	if (x >= 620.0f && vx >= 0)
+	{
+		x = 620.0f;
+	}
+	else if (x < 10.0f && vx <= 0)
+	{
+		x = 10.0f;
+	}
+
 }
 
 void CGimmick::Render() {
@@ -30,19 +40,38 @@ void CGimmick::Render() {
 	else if (vx > 0)
 		ani = GIMMICK_ANI_WALKING_RIGHT;
 	else ani = GIMMICK_ANI_WALKING_LEFT;
-
-	animations[ani]->Render(x, y);
+	if (vy < 0)
+	{
+		if (nx > 0)
+		{
+			ani = GIMMICK_ANI_JUMPING_RIGHT;
+		}
+		else
+		{
+			ani = GIMMICK_ANI_JUMPING_LEFT;
+		}
+	}
+	//xoay hinh
+	if (ani % 2 == 1)
+	{
+		animations[ani]->Render(-x, y);
+	}
+	else
+	{
+		animations[ani]->Render(x, y);
+	}
 }
 
 void CGimmick::SetState(int state) {
 	CGameObject::SetState(state);
+
 	switch (state) {
 	case GIMMICK_STATE_WALKING_RIGHT:
 		vx = GIMMICK_WALKING_SPEED;
 		nx = 1;
 		break;
 	case GIMMICK_STATE_WALKING_LEFT:
-		vx = GIMMICK_WALKING_SPEED;
+		vx = -GIMMICK_WALKING_SPEED;
 		nx = -1;
 		break;
 	case GIMMICK_STATE_JUMP:

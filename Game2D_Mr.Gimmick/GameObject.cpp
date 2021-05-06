@@ -73,6 +73,6 @@ void CGameObject::Render(CCamera* camera)
 
 void CGameObject::AddAnimation(int aniId)
 {
-	LPANIMATION ani = AnimationManager::GetInstance()->Get(aniId);
+	LPANIMATION ani = CAnimationManager::GetInstance()->Get(aniId);
 	animations.push_back(ani);
 }

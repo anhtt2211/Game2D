@@ -151,9 +151,6 @@
     <ClCompile Include="SceneGame.cpp">
       <Filter>FrameWork\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>FrameWork\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -194,9 +191,6 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>FrameWork\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>FrameWork\Animation</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Resources</Filter>

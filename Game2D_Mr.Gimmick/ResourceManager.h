@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Sprite.h"
-#include "TextureManager.h"
 #include "Gimmick.h"
 #include "Enemy.h"
 
@@ -16,9 +15,8 @@ class ResourceManager
 {
 private:
 	static ResourceManager* __instance;
-	CTextureManager* textures = CTextureManager::GetInstance();
-	SpriteManager* sprites = SpriteManager::GetInstance();
-	AnimationManager* animations = AnimationManager::GetInstance();
+	CSpriteManager* sprites = CSpriteManager::GetInstance();
+	CAnimationManager* animations = CAnimationManager::GetInstance();
 
 public:
 	ResourceManager();

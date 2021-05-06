@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "Game.h"
 #include "Gimmick.h"
-#include "TextureManager.h"
+//#include "TextureManager.h"
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "ResourceManager.h"
@@ -137,12 +137,12 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 void LoadResources()
 {
-	CTextureManager* textures = CTextureManager::GetInstance();
-	textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
-	textures->Add(ID_BACKGROUND, "./Resources/Images/Gimmick/bg1.png", D3DCOLOR_XRGB(0, 0, 255));
+	//CTextureManager* textures = CTextureManager::GetInstance();
+	//textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
+	//textures->Add(ID_BACKGROUND, "./Resources/Images/Gimmick/bg1.png", D3DCOLOR_XRGB(0, 0, 255));
 	
-	SpriteManager* sprites = SpriteManager::GetInstance();
-	AnimationManager* animations = AnimationManager::GetInstance();
+	CSpriteManager* sprites = CSpriteManager::GetInstance();
+	CAnimationManager* animations = CAnimationManager::GetInstance();
 	
 	LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
 	texBg = textures->Get(ID_BACKGROUND);

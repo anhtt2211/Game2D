@@ -21,6 +21,6 @@ void CGameObject::Render()
 
 void CGameObject::AddAnimation(int aniId)
 {
-	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+	LPANIMATION ani = CAnimationManager::GetInstance()->Get(aniId);
 	animations.push_back(ani);
 }

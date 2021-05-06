@@ -1,4 +1,4 @@
-#include "Textures.h"
+#include "Texture.h"
 
 int CTexture::GetFrameWidth()
 {

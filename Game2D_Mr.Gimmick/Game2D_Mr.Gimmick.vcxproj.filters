@@ -133,10 +133,10 @@
     <ClCompile Include="Map.cpp">
       <Filter>FrameWork\Map</Filter>
     </ClCompile>
-    <ClCompile Include="TexturesManager.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>FrameWork\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
+    <ClCompile Include="TextureManager.cpp">
       <Filter>FrameWork\Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -163,10 +163,10 @@
     <ClInclude Include="Map.h">
       <Filter>FrameWork\Map</Filter>
     </ClInclude>
-    <ClInclude Include="TexturesManager.h">
+    <ClInclude Include="Texture.h">
       <Filter>FrameWork\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Textures.h">
+    <ClInclude Include="TextureManager.h">
       <Filter>FrameWork\Animation</Filter>
     </ClInclude>
   </ItemGroup>

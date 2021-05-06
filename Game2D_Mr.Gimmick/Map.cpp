@@ -11,7 +11,7 @@ void CMap::LoadMap(int id)
 	default:
 		break;
 	}
-	_texture = CTexturesManger::GetInstance()->GetTexture(id);
+	_texture = CTextureManager::GetInstance()->GetTexture(id);
 
 	_sprite = new CSprite(_texture);
 }

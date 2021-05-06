@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 #include "Sprite.h"
-#include "TexturesManager.h"
+#include "TextureManager.h"
 #include <vector>
 #include "Debug.h"
 

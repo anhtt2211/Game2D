@@ -3,33 +3,33 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include "TexturesManager.h"
+#include "TextureManager.h"
 #include "Game.h"
 
-CTexturesManger* CTexturesManger::__instance = NULL;
+CTextureManager* CTextureManager::__instance = NULL;
 
-CTexturesManger::CTexturesManger()
+CTextureManager::CTextureManager()
 {
 	LoadResources();
 }
 
-CTexturesManger* CTexturesManger::GetInstance() {
+CTextureManager* CTextureManager::GetInstance() {
 	if (__instance == NULL) {
-		__instance = new CTexturesManger();
+		__instance = new CTextureManager();
 	}
 	return __instance;
 }
 
-void CTexturesManger::AddTextures(int id, CTexture* tex)
+void CTextureManager::AddTextures(int id, CTexture* tex)
 {
 	arrTextures[id] = tex;
 }
 
-CTexture* CTexturesManger::GetTexture(unsigned int i)
+CTexture* CTextureManager::GetTexture(unsigned int i)
 {
 	return arrTextures[i];
 }
-void CTexturesManger::LoadResources()
+void CTextureManager::LoadResources()
 {
 	AddTextures(ID_TEX_MAP1, new CTexture(PATH_TEX_MAP1, 9, 8, 72));
 	AddTextures(ID_TEX_MAP2, new CTexture(PATH_TEX_MAP2));

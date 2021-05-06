@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
-#include "Textures.h"
+#include "Texture.h"
 using namespace std;
 class CSprite
 {
@@ -26,15 +26,15 @@ public:
 
 typedef CSprite* LPSPRITE;
 
-class CSprites
+class CSpriteManager
 {
-	static CSprites* __instance;
+	static CSpriteManager* __instance;
 	unordered_map<int, LPSPRITE> sprites;
 public:
 	void Add(int id, int left, int top, int right, int bottom, CTexture* tex);
 	LPSPRITE Get(int id);
 
-	static CSprites* GetInstance();
+	static CSpriteManager* GetInstance();
 };
 
 class CAnimationFrame
@@ -75,9 +75,9 @@ public:
 };
 typedef CAnimation* LPANIMATION;
 
-class CAnimations
+class CAnimationManager
 {
-	static CAnimations* __instance;
+	static CAnimationManager* __instance;
 
 	unordered_map<int, LPANIMATION> animations;
 
@@ -85,7 +85,7 @@ public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
 
-	static CAnimations* GetInstance();
+	static CAnimationManager* GetInstance();
 };
 
 #endif

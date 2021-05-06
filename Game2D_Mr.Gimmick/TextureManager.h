@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 #include <d3dx9.h>
-#include "Textures.h"
+#include "Texture.h"
 
 using namespace std;
 #define ID_TEX_MAP1 1
@@ -17,18 +17,18 @@ using namespace std;
 /*
 	Manage texture database
 */
-class CTexturesManger
+class CTextureManager
 {
-	static CTexturesManger* __instance;
+	static CTextureManager* __instance;
 
 	unordered_map<int, CTexture*> arrTextures;
 
 public:
-	CTexturesManger();
+	CTextureManager();
 	void AddTextures(int id, CTexture* tex);
 	void LoadResources();
 	CTexture* GetTexture(unsigned int i);
 
-	static CTexturesManger* GetInstance();
+	static CTextureManager* GetInstance();
 };
 #endif

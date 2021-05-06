@@ -32,20 +32,20 @@ void CSprite::DrawFrame(int idFrame, float x, float y)
 	game->Draw(x, y, texture->Texture, left, top, right, bottom);
 }
 
-CSprites* CSprites::__instance = NULL;
+CSpriteManager* CSpriteManager::__instance = NULL;
 
-void CSprites::Add(int id, int left, int top, int right, int bottom, CTexture* tex) {
+void CSpriteManager::Add(int id, int left, int top, int right, int bottom, CTexture* tex) {
 	LPSPRITE sprite = new CSprite(id, left, top, right, bottom, tex);
 	sprites[id] = sprite;
 }
 
-LPSPRITE CSprites::Get(int id) {
+LPSPRITE CSpriteManager::Get(int id) {
 	return sprites[id];
 }
 
-CSprites* CSprites::GetInstance() {
+CSpriteManager* CSpriteManager::GetInstance() {
 	if (__instance == NULL) {
-		__instance = new CSprites();
+		__instance = new CSpriteManager();
 	}
 
 	return __instance;
@@ -57,7 +57,7 @@ void CAnimation::Add(int spriteID, DWORD time) {
 		t = this->defaultTime;
 	}
 
-	LPSPRITE sprite = CSprites::GetInstance()->Get(spriteID);
+	LPSPRITE sprite = CSpriteManager::GetInstance()->Get(spriteID);
 	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
 	frames.push_back(frame);
 }
@@ -82,20 +82,20 @@ void CAnimation::Render(float x, float y) {
 }
 
 
-CAnimations* CAnimations::__instance = NULL;
+CAnimationManager* CAnimationManager::__instance = NULL;
 
-CAnimations* CAnimations::GetInstance()
+CAnimationManager* CAnimationManager::GetInstance()
 {
-	if (__instance == NULL) __instance = new CAnimations();
+	if (__instance == NULL) __instance = new CAnimationManager();
 	return __instance;
 }
 
-void CAnimations::Add(int id, LPANIMATION ani)
+void CAnimationManager::Add(int id, LPANIMATION ani)
 {
 	animations[id] = ani;
 }
 
-LPANIMATION CAnimations::Get(int id)
+LPANIMATION CAnimationManager::Get(int id)
 {
 	return animations[id];
 }

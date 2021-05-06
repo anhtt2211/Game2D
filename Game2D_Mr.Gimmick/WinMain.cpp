@@ -10,7 +10,7 @@
 
 #include "Game.h"
 #include "Gimmick.h"
-#include "TexturesManager.h"
+#include "TextureManager.h"
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "Map.h"
@@ -136,9 +136,9 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 void LoadResources()
 {
-	CSprites* sprites = CSprites::GetInstance();
-	CAnimations* animations = CAnimations::GetInstance();
-	CTexture* texGimmick = CTexturesManger::GetInstance()->GetTexture(ID_TEX_GIMMICK);
+	CSpriteManager* sprites = CSpriteManager::GetInstance();
+	CAnimationManager* animations = CAnimationManager::GetInstance();
+	CTexture* texGimmick = CTextureManager::GetInstance()->GetTexture(ID_TEX_GIMMICK);
 
 	//walking right
 	sprites->Add(10001, 0, 23, 20, 45, texGimmick);

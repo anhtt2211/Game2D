@@ -15,7 +15,6 @@
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "Map.h"
-//#include "TextureManager.h"
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "ResourceManager.h"
@@ -23,8 +22,8 @@
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
 
-#define SCREEN_WIDTH 360
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH 360.0f
+#define SCREEN_HEIGHT 240.0f
 
 #define D3DCOLOR_WHITE D3DCOLOR_XRGB(255, 255, 255)
 
@@ -32,11 +31,8 @@
 
 #define MAX_FRAME_RATE 120
 
-int BackBufferWidth = 0;
-int BackBufferHeight = 0;
-
 LPDIRECT3DTEXTURE9 texGimmick;
-#define GIMMICK_TEXTURE_PATH "./Resources/Images/Gimmick/Gimmick.png"
+#define GIMMICK_TEXTURE_PATH "./Resources/Gimmick.png"
 
 #define	GIMMICK_START_X 30.0f
 #define	GIMMICK_START_Y 10.0f

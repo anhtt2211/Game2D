@@ -1,3 +1,4 @@
+
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -9,9 +10,10 @@
 #include <stdlib.h>
 #include "Game.h"
 #include "Gimmick.h"
-#include "Textures.h"
+#include "TextureManager.h"
 #include "CKeyEventHandler.h"
 #include "Debug.h"
+#include "ResourceManager.h"
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
@@ -135,13 +137,13 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 void LoadResources()
 {
-	CTextures* textures = CTextures::GetInstance();
+	CTextureManager* textures = CTextureManager::GetInstance();
 	textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_BACKGROUND, "./Resources/Images/Gimmick/bg1.png", D3DCOLOR_XRGB(0, 0, 255));
-
-	CSprites* sprites = CSprites::GetInstance();
-	CAnimations* animations = CAnimations::GetInstance();
-
+	
+	SpriteManager* sprites = SpriteManager::GetInstance();
+	AnimationManager* animations = AnimationManager::GetInstance();
+	
 	LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
 	texBg = textures->Get(ID_BACKGROUND);
 	//walking right
@@ -158,11 +160,10 @@ void LoadResources()
 	sprites->Add(10013, 56, 23, 76, 45, texGimmick);
 	sprites->Add(10014, 77, 23, 97, 45, texGimmick);
 	sprites->Add(10015, 97, 23, 117, 45, texGimmick);
-
 	//jumping right
 	sprites->Add(10020, 1, 45, 20, 71, texGimmick);
 	sprites->Add(10021, 20, 45, 40, 71, texGimmick);
-
+	
 	LPANIMATION ani;
 	ani = new CAnimation(100);
 	ani->Add(10001);
@@ -172,7 +173,7 @@ void LoadResources()
 	ani->Add(10005);
 	ani->Add(10006);
 	animations->Add(502, ani);	//walking right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10010);
 	ani->Add(10011);
@@ -181,25 +182,25 @@ void LoadResources()
 	ani->Add(10014);
 	ani->Add(10015);
 	animations->Add(503, ani);	//walking left
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(500, ani);	//idle right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(501, ani);	//idle left
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(504, ani);	//jumping right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(505, ani);	//jumping left
-
+	
 	gimmick = new CGimmick();
 	CGimmick::AddAnimation(500);	//idle right
 	CGimmick::AddAnimation(501);	//idle left
@@ -207,7 +208,7 @@ void LoadResources()
 	CGimmick::AddAnimation(503);	//walking left
 	CGimmick::AddAnimation(504);	//jumping right
 	CGimmick::AddAnimation(505);	//jumping left
-
+	ResourceManager::GetInstance()->LoadResource();
 	gimmick->SetPosition(100.0f, 100.0f);
 }
 
@@ -221,7 +222,7 @@ void Update(DWORD dt)
 	mapDimen = D3DXVECTOR2(1024, 384);
 	game->UpdateCam(mainPlayer, mapPos, mapDimen);
 	D3DXVECTOR2 temp = game->GetPosition();
-	gimmick->SetPosition(mainPlayer.x - temp.x, y);
+	gimmick->SetPosition(mainPlayer.x - temp.x, -mainPlayer.y + temp.y);
 	//DebugOutTitle("%f, %f", mainPlayer.y,game->GetPosition().y);
 }
 	
@@ -242,7 +243,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		D3DXVECTOR3 p(GIMMICK_START_X, GIMMICK_START_Y, 0);
+		//D3DXVECTOR3 p(GIMMICK_START_X, GIMMICK_START_Y, 0);
 		
 		RECT cam = game->GetCamBound();
 		float bgX = 0;

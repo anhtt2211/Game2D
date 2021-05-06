@@ -2,13 +2,18 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "Sprite.h"
+#include "Camera.h"
 
 class CGameObject
 {
 protected:
 	float x, y;
 	float vx, vy;
-	int nx;
+
+	int id;
+	int health;
+	int direction;	// 1: to right
+					// -1: to left
 	int state;
 
 	static vector<LPANIMATION> animations;
@@ -16,37 +21,24 @@ protected:
 public:
 	CGameObject();
 
-	void SetPosition(float x, float y) {
-		this->x = x;
-		this->y = y;
-	}
-	void SetSpeed(float vx, float vy) {
-		this->vx = vx;
-		this->vy = vy;
-	}
-	
-	int GetState() {
-		return this->state;
-	}
-	void SetState(int state) {
-		this->state = state;
-	}
+	void SetPosition(float x, float y);
+	void SetSpeed(float vx, float vy);
+	void SetState(int state);
+	void SetID(int id);
+	void SetDirection(int dir);
+	void SetHealth(int h);
 
-	float GetX() {
-		return this->x;
-	}
-	float GetY() {
-		return this->y;
-	}
+	int GetState();
+	int GetID();
+	float GetX();
+	float GetY();
+	int GetHealth();
 
 	static void AddAnimation(int aniID);
 
 	virtual void Update(DWORD dt);
 	virtual void Render();
-
-	////v/*irtual void OnKeyDown(int keycode);
-	//virtual void OnKeyUp(int keycode);
-	//virtual void KeyState(BYTE* state);*/
+	virtual void Render(CCamera* camera);
 };
 typedef CGameObject* LPGAMEOBJECT;
 

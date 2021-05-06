@@ -21,15 +21,15 @@ public:
 
 typedef CSprite* LPSPRITE;
 
-class CSprites
+class SpriteManager
 {
-	static CSprites* __instance;
+	static SpriteManager* __instance;
 	unordered_map<int, LPSPRITE> sprites;
 public:
 	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(int id);
 
-	static CSprites* GetInstance();
+	static SpriteManager* GetInstance();
 };
 
 class CAnimationFrame
@@ -70,9 +70,9 @@ public:
 };
 typedef CAnimation* LPANIMATION;
 
-class CAnimations
+class AnimationManager
 {
-	static CAnimations* __instance;
+	static AnimationManager* __instance;
 
 	unordered_map<int, LPANIMATION> animations;
 
@@ -80,5 +80,5 @@ public:
 	void Add(int id, LPANIMATION ani);
 	LPANIMATION Get(int id);
 
-	static CAnimations* GetInstance();
+	static AnimationManager* GetInstance();
 };

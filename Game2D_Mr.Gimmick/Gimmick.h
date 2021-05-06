@@ -26,6 +26,7 @@ public:
 
 	void Update(DWORD dt);
 	void Render();
+	virtual void Render(CCamera* camera);
 	void SetState(int state);
 
 	void OnKeyDown(int keycode);

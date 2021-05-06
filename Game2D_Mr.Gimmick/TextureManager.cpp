@@ -4,24 +4,24 @@
 #include <d3dx9.h>
 
 #include "Game.h"
-#include "Textures.h"
+#include "TextureManager.h"
 
-CTextures* CTextures::__instance = NULL;
+CTextureManager* CTextureManager::__instance = NULL;
 
-CTextures::CTextures()
+CTextureManager::CTextureManager()
 {
 
 }
 
-CTextures* CTextures::GetInstance() {
+CTextureManager* CTextureManager::GetInstance() {
 	if (__instance == NULL) {
-		__instance = new CTextures();
+		__instance = new CTextureManager();
 	}
 
 	return __instance;
 }
 
-void CTextures::Add(int id, LPCSTR filePath, D3DCOLOR transparentColor)
+void CTextureManager::Add(int id, LPCSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
@@ -57,7 +57,7 @@ void CTextures::Add(int id, LPCSTR filePath, D3DCOLOR transparentColor)
 	textures[id] = texture;
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(unsigned int i)
+LPDIRECT3DTEXTURE9 CTextureManager::Get(unsigned int i)
 {
 	return textures[i];
 }

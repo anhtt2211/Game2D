@@ -1,3 +1,4 @@
+
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -14,6 +15,10 @@
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "Map.h"
+//#include "TextureManager.h"
+#include "CKeyEventHandler.h"
+#include "Debug.h"
+#include "ResourceManager.h"
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
@@ -154,11 +159,10 @@ void LoadResources()
 	sprites->Add(10013, 56, 23, 76, 45, texGimmick);
 	sprites->Add(10014, 77, 23, 97, 45, texGimmick);
 	sprites->Add(10015, 97, 23, 117, 45, texGimmick);
-
 	//jumping right
 	sprites->Add(10020, 1, 45, 20, 71, texGimmick);
 	sprites->Add(10021, 20, 45, 40, 71, texGimmick);
-
+	
 	LPANIMATION ani;
 	ani = new CAnimation(100);
 	ani->Add(10001);
@@ -168,7 +172,7 @@ void LoadResources()
 	ani->Add(10005);
 	ani->Add(10006);
 	animations->Add(502, ani);	//walking right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10010);
 	ani->Add(10011);
@@ -177,25 +181,25 @@ void LoadResources()
 	ani->Add(10014);
 	ani->Add(10015);
 	animations->Add(503, ani);	//walking left
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(500, ani);	//idle right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(501, ani);	//idle left
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(504, ani);	//jumping right
-
+	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(505, ani);	//jumping left
-
+	
 	gimmick = new CGimmick();
 	CGimmick::AddAnimation(500);	//idle right
 	CGimmick::AddAnimation(501);	//idle left

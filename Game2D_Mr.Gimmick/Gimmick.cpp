@@ -3,7 +3,7 @@
 #include "Debug.h"
 
 CGimmick::CGimmick() {
-	CGameObject();
+	
 }
 
 void CGimmick::Update(DWORD dt) {
@@ -28,7 +28,7 @@ void CGimmick::Render() {
 	int ani;
 	if (vx == 0)
 	{
-		if (nx > 0) ani = GIMMICK_ANI_IDLE_RIGHT;
+		if (direction > 0) ani = GIMMICK_ANI_IDLE_RIGHT;
 		else ani = GIMMICK_ANI_IDLE_LEFT;
 	}
 	else if (vx > 0)
@@ -36,7 +36,7 @@ void CGimmick::Render() {
 	else ani = GIMMICK_ANI_WALKING_LEFT;
 	if (vy < 0)
 	{
-		if (nx > 0)
+		if (direction > 0)
 		{
 			ani = GIMMICK_ANI_JUMPING_RIGHT;
 		}
@@ -56,17 +56,21 @@ void CGimmick::Render() {
 	}
 }
 
+void CGimmick::Render(CCamera* camera) {
+
+}
+
 void CGimmick::SetState(int state) {
 	CGameObject::SetState(state);
 
 	switch (state) {
 	case GIMMICK_STATE_WALKING_RIGHT:
 		vx = GIMMICK_WALKING_SPEED;
-		nx = 1;
+		direction = 1;
 		break;
 	case GIMMICK_STATE_WALKING_LEFT:
 		vx = -GIMMICK_WALKING_SPEED;
-		nx = -1;
+		direction = -1;
 		break;
 	case GIMMICK_STATE_JUMP:
 		vy = -GIMMICK_JUMP_SPEED_Y;

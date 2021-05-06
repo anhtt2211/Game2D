@@ -213,6 +213,7 @@ void CGame::ProcessKeyboard()
 	}
 }
 
+
 CGame::~CGame() {
 	if (spriteHandler != NULL) spriteHandler->Release();
 	if (backBuffer != NULL) backBuffer->Release();

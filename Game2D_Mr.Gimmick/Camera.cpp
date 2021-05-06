@@ -16,7 +16,7 @@ RECT CCamera::GetLockBound()
 	bound.left = mPosition.x + camWidth / 3.0f;
 	bound.right = bound.left + camWidth / 5.0f;
 	bound.top = mPosition.y - camHeight / 4.0f;
-	bound.bottom = bound.top - camHeight / 2.0f;
+	bound.bottom = bound.top - camHeight / 5.0f;
 	return bound;
 }
 void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen)
@@ -40,7 +40,7 @@ void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 
 		lastX = mPosition.x + (mainPlayerPos.x - r.right);
 	}
 	//calculate cam Y
-	if (mainPlayerPos.y >= r.bottom && mainPlayerPos.x <= r.top)
+	if (mainPlayerPos.y >= r.bottom && mainPlayerPos.y <= r.top)
 	{	
 		lastY = mPosition.y;
 	}
@@ -72,7 +72,7 @@ void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 
 		lastY = mapPos.y - mapDimen.y + camHeight;
 	}
 	this->SetPosition(lastX, lastY);
-	DebugOutTitle("%f, %f, %f", mainPlayerPos.y, t, (float)r.bottom ); 
+	//DebugOutTitle("%f, %f, %f", mainPlayerPos.y,  (float)r.bottom,(float)r.top ); 
 }
 
 D3DXVECTOR2 CCamera::CamToWorld(float x, float y)

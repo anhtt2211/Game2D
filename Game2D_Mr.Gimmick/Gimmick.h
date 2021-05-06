@@ -4,7 +4,7 @@
 #include "Game.h"
 
 #define GIMMICK_WALKING_SPEED		0.1f
-#define GIMMICK_JUMP_SPEED_Y		0.5f
+#define GIMMICK_JUMP_SPEED_Y		0.7f
 #define GIMMICK_GRAVITY				0.05f
 
 #define GIMMICK_STATE_IDLE			0

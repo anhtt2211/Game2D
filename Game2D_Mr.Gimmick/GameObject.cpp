@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "Sprite.h"
 
 vector<LPANIMATION> CGameObject::animations;
 

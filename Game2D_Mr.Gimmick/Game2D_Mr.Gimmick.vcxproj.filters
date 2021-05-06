@@ -42,8 +42,8 @@
     <Filter Include="FrameWork\Camera">
       <UniqueIdentifier>{4c00fa9c-7a9c-4934-8cc8-628f22f7d467}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Background">
-      <UniqueIdentifier>{f890b465-255e-4c0b-8479-a33d3efef3a1}</UniqueIdentifier>
+    <Filter Include="FrameWork\Map">
+      <UniqueIdentifier>{31d0c2ef-77c8-4bda-a2b8-653a942ee86b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,9 +118,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>FrameWork\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>FrameWork\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="Gimmick.cpp">
       <Filter>Object\Gimmick</Filter>
     </ClCompile>
@@ -133,6 +130,15 @@
     <ClCompile Include="Game.cpp">
       <Filter>WinMain</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>FrameWork\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturesManager.cpp">
+      <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -144,9 +150,6 @@
     <ClInclude Include="Sprite.h">
       <Filter>FrameWork\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>FrameWork\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="Gimmick.h">
       <Filter>Object\Gimmick</Filter>
     </ClInclude>
@@ -156,6 +159,15 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h">
       <Filter>WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>FrameWork\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturesManager.h">
+      <Filter>FrameWork\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>FrameWork\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

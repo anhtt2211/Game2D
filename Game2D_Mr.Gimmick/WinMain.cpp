@@ -7,11 +7,13 @@
 #include <stdarg.h>
 #include <time.h>
 #include <stdlib.h>
+
 #include "Game.h"
 #include "Gimmick.h"
-#include "Textures.h"
+#include "TexturesManager.h"
 #include "CKeyEventHandler.h"
 #include "Debug.h"
+#include "Map.h"
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
@@ -36,16 +38,15 @@ LPDIRECT3DTEXTURE9 texGimmick;
 #define	GIMMICK_START_VX 0.2f
 #define	GIMMICK_WIDTH 16.0f
 
-#define ID_TEX_GIMMICK 0
-#define ID_BACKGROUND 1
 
 D3DXVECTOR2 mainPlayer;
 D3DXVECTOR2 mapPos;
 D3DXVECTOR2 mapDimen;
 
+
 CGame* game;
+CMap* map = new CMap();
 CGimmick* gimmick;
-LPDIRECT3DTEXTURE9 texBg;
 
 class CKeyGimmickHandler : public CKeyEventHandler {
 public:
@@ -135,15 +136,10 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 void LoadResources()
 {
-	CTextures* textures = CTextures::GetInstance();
-	textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
-	textures->Add(ID_BACKGROUND, "./Resources/Images/Gimmick/bg1.png", D3DCOLOR_XRGB(0, 0, 255));
-
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
+	CTexture* texGimmick = CTexturesManger::GetInstance()->GetTexture(ID_TEX_GIMMICK);
 
-	LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
-	texBg = textures->Get(ID_BACKGROUND);
 	//walking right
 	sprites->Add(10001, 0, 23, 20, 45, texGimmick);
 	sprites->Add(10002, 19, 23, 39, 45, texGimmick);
@@ -208,7 +204,7 @@ void LoadResources()
 	CGimmick::AddAnimation(504);	//jumping right
 	CGimmick::AddAnimation(505);	//jumping left
 
-	gimmick->SetPosition(100.0f, 100.0f);
+	gimmick->SetPosition(100.0f, 150.0f);
 }
 
 void Update(DWORD dt)
@@ -221,8 +217,7 @@ void Update(DWORD dt)
 	mapDimen = D3DXVECTOR2(1024, 384);
 	game->UpdateCam(mainPlayer, mapPos, mapDimen);
 	D3DXVECTOR2 temp = game->GetPosition();
-	gimmick->SetPosition(mainPlayer.x - temp.x, y);
-	//DebugOutTitle("%f, %f", mainPlayer.y,game->GetPosition().y);
+	gimmick->SetPosition(mainPlayer.x - temp.x, temp.y - mainPlayer.y);
 }
 	
 /*
@@ -241,17 +236,9 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
-		D3DXVECTOR3 p(GIMMICK_START_X, GIMMICK_START_Y, 0);
 		
-		RECT cam = game->GetCamBound();
-		float bgX = 0;
-		float bgY = mapDimen.y - cam.bottom;
-		cam.top = mapDimen.y - cam.top;
-		cam.bottom = cam.top + game->GetScreenHeight();
-		game->Draw(0, 0, texBg, cam.left, cam.top, cam.right, cam.bottom);
+		map->RenderMap(game->GetCamera());
 		gimmick->Render();
-		//DebugOutTitle(L"%s (%0.1f,%0.1f) v:%0.1f", WINDOW_TITLE, GIMMICK_START_X, GIMMICK_START_Y, GIMMICK_START_VX);
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -305,8 +292,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDebugWindow(hwnd);
 	game->SetCamPosition(0, game->GetScreenHeight());
 	game->InitKeyboard(keyHandler);
-
 	LoadResources();
+	map->LoadMap(ID_TEX_MAP1);
 	Run();
 
 	return 0;

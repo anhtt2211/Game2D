@@ -11,12 +11,16 @@ void CGimmick::Update(DWORD dt) {
 
 	// simple fall down
 	vy += GIMMICK_GRAVITY;
-	if (y > 100)
+	if (y > 150)
 	{
 		vy = 0;
-		y = 100.0f;
+		y = 150.0f; 
 	}
-	if (vx > 0 && x > 360) x = 360;
+	if (y < 0)
+	{
+		y = 0;
+	}
+	if (vx > 0 && x > SCREEN_WIDTH -30) x = SCREEN_WIDTH - 10;
 	if (vx < 0 && x < 0) x = 0;
 }
 
@@ -65,9 +69,8 @@ void CGimmick::SetState(int state) {
 		nx = -1;
 		break;
 	case GIMMICK_STATE_JUMP:
-		
 		vy = -GIMMICK_JUMP_SPEED_Y;
-		
+		break;
 	case GIMMICK_STATE_IDLE:
 		vx = 0;
 		break;

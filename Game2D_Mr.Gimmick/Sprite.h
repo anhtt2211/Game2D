@@ -1,7 +1,9 @@
-#pragma once
+#ifndef _SPRITE_H_
+#define _SPRITE_H_
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include "Textures.h"
 using namespace std;
 class CSprite
 {
@@ -12,11 +14,14 @@ class CSprite
 	int right;
 	int bottom;
 
-	LPDIRECT3DTEXTURE9 texture;
+	CTexture* texture;
 public:
-	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(int id, int left, int top, int right, int bottom, CTexture* tex);
+	CSprite(CTexture* tex) { this->texture = tex; }
+	//CSprite(){}
 
 	void Draw(float x, float y);
+	void DrawFrame(int idFrame, float x, float y);
 };
 
 typedef CSprite* LPSPRITE;
@@ -26,7 +31,7 @@ class CSprites
 	static CSprites* __instance;
 	unordered_map<int, LPSPRITE> sprites;
 public:
-	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Add(int id, int left, int top, int right, int bottom, CTexture* tex);
 	LPSPRITE Get(int id);
 
 	static CSprites* GetInstance();
@@ -82,3 +87,5 @@ public:
 
 	static CAnimations* GetInstance();
 };
+
+#endif

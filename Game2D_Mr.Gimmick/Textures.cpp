@@ -1,39 +1,43 @@
-#include <Windows.h>
-
-#include <d3d9.h>
-#include <d3dx9.h>
-
-#include "Game.h"
 #include "Textures.h"
 
-CTextures* CTextures::__instance = NULL;
-
-CTextures::CTextures()
+int CTexture::GetFrameWidth()
 {
-
+	return frameWidth;
 }
 
-CTextures* CTextures::GetInstance() {
-	if (__instance == NULL) {
-		__instance = new CTextures();
-	}
-
-	return __instance;
+int CTexture::GetFrameHeight()
+{
+	return frameHeight;
 }
 
-void CTextures::Add(int id, LPCSTR filePath, D3DCOLOR transparentColor)
+int CTexture::GetColumn()
 {
+	return Column;
+}
+
+int CTexture::GetRow()
+{
+	return Row;
+}
+
+CTexture::CTexture(LPCSTR filePath, int column, int row, int totalframes, int R, int G, int B)
+{
+	Column = column;
+	Row = row;
+	TotalFrames = totalframes;
+
 	D3DXIMAGE_INFO info;
-	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
+	HRESULT result = D3DXGetImageInfoFromFileA(filePath, &info);
 	if (result != D3D_OK)
 	{
 		return;
 	}
+	this->frameWidth = info.Width / Column;
+	this->frameHeight = info.Height / Row;
 
 	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
-	LPDIRECT3DTEXTURE9 texture;
 
-	result = D3DXCreateTextureFromFileEx(
+	result = D3DXCreateTextureFromFileExA(
 		d3ddv,								// Pointer to Direct3D device object
 		filePath,							// Path to the image to load
 		info.Width,							// Texture width
@@ -44,20 +48,24 @@ void CTextures::Add(int id, LPCSTR filePath, D3DCOLOR transparentColor)
 		D3DPOOL_DEFAULT,
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
-		transparentColor,
+		D3DCOLOR_XRGB(R, G, B),
 		&info,
 		NULL,
-		&texture);								// Created texture pointer
+		&Texture);								// Created texture pointer
 
 	if (result != D3D_OK)
 	{
+		OutputDebugString("[ERROR] CreateTextureFromFile failed\n");
 		return;
 	}
-
-	textures[id] = texture;
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(unsigned int i)
+CTexture::CTexture()
 {
-	return textures[i];
+	this->Texture = NULL;
+}
+CTexture::~CTexture()
+{
+	if (this->Texture != NULL)
+		this->Texture->Release();
 }

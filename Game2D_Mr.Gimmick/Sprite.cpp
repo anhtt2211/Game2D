@@ -1,7 +1,6 @@
 #include "Sprite.h"
-#include "Game.h"
 
-CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+CSprite::CSprite(int id, int left, int top, int right, int bottom, CTexture* tex)
 {
 	this->id = id;
 	this->left = left;
@@ -16,18 +15,26 @@ void CSprite::Draw(float x, float y)
 	CGame* game = CGame::GetInstance();
 	if (x > 0)
 	{
-		game->DrawFlip(x, y, texture, left, top, right, bottom, 1.0f, 1.0f);
+		game->DrawFlip(x, y, texture->Texture, left, top, right, bottom, 1.0f, 1.0f);
 	}
 	else
 	{
-		game->DrawFlip(x, y, texture, left, top, right, bottom, -1.0f, 1.0f);
+		game->DrawFlip(x, y, texture->Texture, left, top, right, bottom, -1.0f, 1.0f);
 	}
 }
-
+void CSprite::DrawFrame(int idFrame, float x, float y)
+{
+	left = (idFrame % texture->GetColumn()) * texture->GetFrameWidth();
+	right = left + texture->GetFrameWidth();
+	top = (idFrame / texture->GetColumn()) * texture->GetFrameHeight();
+	bottom = top + texture->GetFrameHeight();
+	CGame* game = CGame::GetInstance();
+	game->Draw(x, y, texture->Texture, left, top, right, bottom);
+}
 
 CSprites* CSprites::__instance = NULL;
 
-void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex) {
+void CSprites::Add(int id, int left, int top, int right, int bottom, CTexture* tex) {
 	LPSPRITE sprite = new CSprite(id, left, top, right, bottom, tex);
 	sprites[id] = sprite;
 }

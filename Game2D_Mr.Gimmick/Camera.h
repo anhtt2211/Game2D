@@ -24,6 +24,8 @@ public:
 		return this->mPosition.y;
 	}
 
+	D3DXVECTOR2 Transform(float, float);
+
 	void Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen);
 
 	D3DXVECTOR2 CamToWorld(float x, float y);

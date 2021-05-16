@@ -2,7 +2,7 @@
 
 #include "Sprite.h"
 #include "Gimmick.h"
-#include "Enemy.h"
+#include "Goomba.h"
 
 
 

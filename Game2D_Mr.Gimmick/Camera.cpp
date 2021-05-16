@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Debug.h"
 #include "Gimmick.h"
+
 RECT CCamera::GetBound()
 {
 	RECT bound;
@@ -10,6 +11,7 @@ RECT CCamera::GetBound()
 	bound.bottom = bound.top + camHeight + 1;
 	return bound;
 }
+
 RECT CCamera::GetLockBound()
 {
 	RECT bound;
@@ -19,6 +21,7 @@ RECT CCamera::GetLockBound()
 	bound.bottom = bound.top - camHeight / 5.0f;
 	return bound;
 }
+
 void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen)
 {
 	//mainPlayerPos la vi tri cua main player so voi world
@@ -81,10 +84,15 @@ D3DXVECTOR2 CCamera::CamToWorld(float x, float y)
 	float World_Y = mPosition.y - y;
 	return D3DXVECTOR2(World_X, World_Y);
 }
+
 D3DXVECTOR2 CCamera::WorldToCam(float x, float y)
 {
 	float cam_x, cam_y; // vi tri can chuyen qua camera
 	cam_x = x - mPosition.x;
 	cam_y = mPosition.y - y;
 	return D3DXVECTOR2(cam_x, cam_y);
+}
+
+D3DXVECTOR2 CCamera::Transform(float x, float y) {
+	return D3DXVECTOR2(x - mPosition.x, y - mPosition.y);
 }

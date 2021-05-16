@@ -14,10 +14,10 @@ ResourceManager* ResourceManager::GetInstance() {
 
 void ResourceManager::LoadResource() {
 	//this->textures->Add(ID_TEX_GIMMICK, GIMMICK_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
-	//this->textures->Add(ID_TEX_ENEMY, ENEMY_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
+	//this->textures->Add(ID_TEX_GOOMBA, ENEMY_TEXTURE_PATH, D3DCOLOR_XRGB(0, 0, 255));
 
 	//LPDIRECT3DTEXTURE9 texGimmick = textures->Get(ID_TEX_GIMMICK);
-	//LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	//LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_GOOMBA);
 
 	//#pragma region ADD SPRITES GIMMICK
 	////walking right

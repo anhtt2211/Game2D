@@ -18,6 +18,8 @@
 #include "CKeyEventHandler.h"
 #include "Debug.h"
 #include "ResourceManager.h"
+#include "Goomba.h"
+using namespace std;
 
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
@@ -39,15 +41,17 @@ LPDIRECT3DTEXTURE9 texGimmick;
 #define	GIMMICK_START_VX 0.2f
 #define	GIMMICK_WIDTH 16.0f
 
-
 D3DXVECTOR2 mainPlayer;
 D3DXVECTOR2 mapPos;
 D3DXVECTOR2 mapDimen;
 
-
 CGame* game;
 CMap* map = new CMap();
+
 CGimmick* gimmick;
+CGoomba* goomba;
+
+vector<LPGAMEOBJECT> objects;
 
 class CKeyGimmickHandler : public CKeyEventHandler {
 public:
@@ -140,25 +144,31 @@ void LoadResources()
 	CSpriteManager* sprites = CSpriteManager::GetInstance();
 	CAnimationManager* animations = CAnimationManager::GetInstance();
 	CTexture* texGimmick = CTextureManager::GetInstance()->GetTexture(ID_TEX_GIMMICK);
-
-	//walking right
+	CTexture* texGoomba = CTextureManager::GetInstance()->GetTexture(ID_TEX_GOOMBA);
+		
+	//gimmick walking right
 	sprites->Add(10001, 0, 23, 20, 45, texGimmick);
 	sprites->Add(10002, 19, 23, 39, 45, texGimmick);
 	sprites->Add(10003, 37, 23, 57, 45, texGimmick);
 	sprites->Add(10004, 56, 23, 76, 45, texGimmick);
 	sprites->Add(10005, 77, 23, 97, 45, texGimmick);
 	sprites->Add(10006, 97, 23, 117, 45, texGimmick);
-	//walking left
+	//gimmick walking left
 	sprites->Add(10010, 0, 23, 20, 45, texGimmick);
 	sprites->Add(10011, 19, 23, 39, 45, texGimmick);
 	sprites->Add(10012, 37, 23, 57, 45, texGimmick);
 	sprites->Add(10013, 56, 23, 76, 45, texGimmick);
 	sprites->Add(10014, 77, 23, 97, 45, texGimmick);
 	sprites->Add(10015, 97, 23, 117, 45, texGimmick);
-	//jumping right
+	//gimmick jumping right
 	sprites->Add(10020, 1, 45, 20, 71, texGimmick);
 	sprites->Add(10021, 20, 45, 40, 71, texGimmick);
 	
+	//goomba walk
+	sprites->Add(20001, 1, 0, 1 + 18, 18, texGoomba);
+	sprites->Add(20002, 19, 0, 19 + 18, 18, texGoomba);
+	sprites->Add(20003, 37, 0, 37 + 18, 18, texGoomba);
+
 	LPANIMATION ani;
 	ani = new CAnimation(100);
 	ani->Add(10001);
@@ -167,7 +177,7 @@ void LoadResources()
 	ani->Add(10004);
 	ani->Add(10005);
 	ani->Add(10006);
-	animations->Add(502, ani);	//walking right
+	animations->Add(502, ani);	//gimmick walking right
 	
 	ani = new CAnimation(100);
 	ani->Add(10010);
@@ -176,40 +186,65 @@ void LoadResources()
 	ani->Add(10013);
 	ani->Add(10014);
 	ani->Add(10015);
-	animations->Add(503, ani);	//walking left
+	animations->Add(503, ani);	//gimmick walking left
 	
 	ani = new CAnimation(100);
 	ani->Add(10001);
-	animations->Add(500, ani);	//idle right
+	animations->Add(500, ani);	//gimmick idle right
 	
 	ani = new CAnimation(100);
 	ani->Add(10001);
-	animations->Add(501, ani);	//idle left
+	animations->Add(501, ani);	//gimmick idle left
 	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
-	animations->Add(504, ani);	//jumping right
+	animations->Add(504, ani);	//gimmick jumping right
 	
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
-	animations->Add(505, ani);	//jumping left
+	animations->Add(505, ani);	//gimmick jumping left
 	
 	gimmick = new CGimmick();
-	CGimmick::AddAnimation(500);	//idle right
-	CGimmick::AddAnimation(501);	//idle left
-	CGimmick::AddAnimation(502);	//walking right
-	CGimmick::AddAnimation(503);	//walking left
-	CGimmick::AddAnimation(504);	//jumping right
-	CGimmick::AddAnimation(505);	//jumping left
+	gimmick->AddAnimation(500);	//idle right
+	gimmick->AddAnimation(501);	//idle left
+	gimmick->AddAnimation(502);	//walking right
+	gimmick->AddAnimation(503);	//walking left
+	gimmick->AddAnimation(504);	//jumping right
+	gimmick->AddAnimation(505);	//jumping left
 
 	gimmick->SetPosition(100.0f, 150.0f);
+	objects.push_back(gimmick);
+
+	ani = new CAnimation(100);
+	ani->Add(20001);
+	ani->Add(20002);
+	ani->Add(20003);
+	animations->Add(701, ani);
+	for (int i = 0; i < 4; i++) {
+		goomba = new CGoomba();
+		goomba->AddAnimation(701);
+		goomba->SetPosition(200.0f + i * 60, 150.0f);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		objects.push_back(goomba);
+	}
 }
 
 void Update(DWORD dt)
 {
-	gimmick->Update(dt);
+	vector<LPGAMEOBJECT> coObjects;
+	for (int i = 1; i < objects.size(); i++)
+	{
+		coObjects.push_back(objects[i]);
+	}
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
+
+	//gimmick->Update(dt);
 	float x = gimmick->GetX();
 	float y = gimmick->GetY();
 	mainPlayer = game->GetInstance()->CamToWorld(x, y);
@@ -238,7 +273,11 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		
 		map->RenderMap(game->GetCamera());
-		gimmick->Render();
+		/*gimmick->Render();
+		goomba->Render();*/
+		for (int i = 0; i < objects.size(); i++) {
+			objects[i]->Render();
+		}
 
 		spriteHandler->End();
 		d3ddv->EndScene();

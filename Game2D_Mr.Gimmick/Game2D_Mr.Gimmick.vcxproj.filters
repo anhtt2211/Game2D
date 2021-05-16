@@ -60,6 +60,9 @@
     <Filter Include="FrameWork\Debug">
       <UniqueIdentifier>{69e2409b-d37e-4f7e-9fce-eaf1786fd04d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Weapon">
+      <UniqueIdentifier>{b21d9215-4972-430e-8d35-92a318ade275}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Resource\Gimmick\Gimmick.png">
@@ -154,9 +157,6 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -171,6 +171,12 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>FrameWork\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +210,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -221,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>FrameWork\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

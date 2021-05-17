@@ -63,6 +63,9 @@
     <Filter Include="Object\Weapon">
       <UniqueIdentifier>{b21d9215-4972-430e-8d35-92a318ade275}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Ground">
+      <UniqueIdentifier>{4cb6300a-e9e0-4544-a91c-81b268ec2593}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Resource\Gimmick\Gimmick.png">
@@ -178,6 +181,9 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object\Ground</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -230,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Goomba.h">
       <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Object\Ground</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

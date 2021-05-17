@@ -19,6 +19,7 @@
 #include "Debug.h"
 #include "ResourceManager.h"
 #include "Goomba.h"
+#include "Brick.h"
 using namespace std;
 
 #define WINDOW_CLASS_NAME "WindowClassName"
@@ -145,7 +146,9 @@ void LoadResources()
 	CAnimationManager* animations = CAnimationManager::GetInstance();
 	CTexture* texGimmick = CTextureManager::GetInstance()->GetTexture(ID_TEX_GIMMICK);
 	CTexture* texGoomba = CTextureManager::GetInstance()->GetTexture(ID_TEX_GOOMBA);
-		
+	CTexture* texBrick = CTextureManager::GetInstance()->GetTexture(ID_TEX_BRICK);
+	
+#pragma region gimmick
 	//gimmick walking right
 	sprites->Add(10001, 0, 23, 20, 45, texGimmick);
 	sprites->Add(10002, 19, 23, 39, 45, texGimmick);
@@ -163,11 +166,6 @@ void LoadResources()
 	//gimmick jumping right
 	sprites->Add(10020, 1, 45, 20, 71, texGimmick);
 	sprites->Add(10021, 20, 45, 40, 71, texGimmick);
-	
-	//goomba walk
-	sprites->Add(20001, 1, 0, 1 + 18, 18, texGoomba);
-	sprites->Add(20002, 19, 0, 19 + 18, 18, texGoomba);
-	sprites->Add(20003, 37, 0, 37 + 18, 18, texGoomba);
 
 	LPANIMATION ani;
 	ani = new CAnimation(100);
@@ -178,7 +176,7 @@ void LoadResources()
 	ani->Add(10005);
 	ani->Add(10006);
 	animations->Add(502, ani);	//gimmick walking right
-	
+
 	ani = new CAnimation(100);
 	ani->Add(10010);
 	ani->Add(10011);
@@ -187,25 +185,25 @@ void LoadResources()
 	ani->Add(10014);
 	ani->Add(10015);
 	animations->Add(503, ani);	//gimmick walking left
-	
+
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(500, ani);	//gimmick idle right
-	
+
 	ani = new CAnimation(100);
 	ani->Add(10001);
 	animations->Add(501, ani);	//gimmick idle left
-	
+
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(504, ani);	//gimmick jumping right
-	
+
 	ani = new CAnimation(100);
 	ani->Add(10020);
 	ani->Add(10021);
 	animations->Add(505, ani);	//gimmick jumping left
-	
+
 	gimmick = new CGimmick();
 	gimmick->AddAnimation(500);	//idle right
 	gimmick->AddAnimation(501);	//idle left
@@ -216,12 +214,20 @@ void LoadResources()
 
 	gimmick->SetPosition(100.0f, 150.0f);
 	objects.push_back(gimmick);
+#pragma endregion
+
+#pragma region goomba
+	//goomba walk
+	sprites->Add(20001, 1, 0, 1 + 18, 18, texGoomba);
+	sprites->Add(20002, 19, 0, 19 + 18, 18, texGoomba);
+	sprites->Add(20003, 37, 0, 37 + 18, 18, texGoomba);
 
 	ani = new CAnimation(100);
 	ani->Add(20001);
 	ani->Add(20002);
 	ani->Add(20003);
 	animations->Add(701, ani);
+
 	for (int i = 0; i < 4; i++) {
 		goomba = new CGoomba();
 		goomba->AddAnimation(701);
@@ -229,6 +235,22 @@ void LoadResources()
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);
 	}
+#pragma endregion
+
+//#pragma region brick
+//	sprites->Add(30001, 0, 32, 0 + 16, 32 + 16, texBrick);
+//
+//	ani = new CAnimation(100);
+//	ani->Add(30001);
+//	animations->Add(801, ani);
+//	for (int i = 0; i < 30; i++)
+//	{
+//		CBrick* brick = new CBrick();
+//		brick->AddAnimation(801);
+//		brick->SetPosition(i, 150.0f);
+//		objects.push_back(brick);
+//	}
+//#pragma endregion
 }
 
 void Update(DWORD dt)

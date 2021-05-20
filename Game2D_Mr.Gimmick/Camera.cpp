@@ -7,7 +7,7 @@ RECT CCamera::GetBound()
 	bound.left = mPosition.x;
 	bound.right = bound.left + camWidth - 1;
 	bound.top = mPosition.y;
-	bound.bottom = bound.top + camHeight + 1;
+	bound.bottom = bound.top - camHeight - 1;
 	return bound;
 }
 RECT CCamera::GetLockBound()
@@ -22,35 +22,35 @@ RECT CCamera::GetLockBound()
 void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen)
 {
 	//mainPlayerPos la vi tri cua main player so voi world
-	RECT r = GetLockBound();
+	RECT lockBound = GetLockBound();
 	float lastX, lastY;
 
-	float t = r.top;
+	float t = lockBound.top;
 	//calculate cam X
-	if (mainPlayerPos.x >= r.left && mainPlayerPos.x <= r.right)
+	if (mainPlayerPos.x >= lockBound.left && mainPlayerPos.x <= lockBound.right)
 	{
 		lastX = mPosition.x;
 	}
-	else if (mainPlayerPos.x < r.left)
+	else if (mainPlayerPos.x < lockBound.left)
 	{
-		lastX = mPosition.x - (r.left - mainPlayerPos.x);
+		lastX = mPosition.x - (lockBound.left - mainPlayerPos.x);
 	}
 	else
 	{
-		lastX = mPosition.x + (mainPlayerPos.x - r.right);
+		lastX = mPosition.x + (mainPlayerPos.x - lockBound.right);
 	}
 	//calculate cam Y
-	if (mainPlayerPos.y >= r.bottom && mainPlayerPos.y <= r.top)
+	if (mainPlayerPos.y >= lockBound.bottom && mainPlayerPos.y <= lockBound.top)
 	{	
 		lastY = mPosition.y;
 	}
-	else if (mainPlayerPos.y < r.bottom)
+	else if (mainPlayerPos.y < lockBound.bottom)
 	{
-		lastY = mPosition.y - (r.bottom - mainPlayerPos.y);
+		lastY = mPosition.y - (lockBound.bottom - mainPlayerPos.y);
 	}
 	else
 	{
-		lastY = mPosition.y + (mainPlayerPos.y - r.top);
+		lastY = mPosition.y + (mainPlayerPos.y - lockBound.top);
 	}
 
 	//Gioi han x, y
@@ -72,19 +72,21 @@ void CCamera::Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 
 		lastY = mapPos.y - mapDimen.y + camHeight;
 	}
 	this->SetPosition(lastX, lastY);
-	//DebugOutTitle("%f, %f, %f", mainPlayerPos.y,  (float)r.bottom,(float)r.top ); 
+	//DebugOutTitle("%f, %f, %f", lastY,  (float)lockBound.bottom,(float)lockBound.	top ); 
 }
 
-D3DXVECTOR2 CCamera::CamToWorld(float x, float y)
+D3DXVECTOR2 CCamera::Transform(float x, float y)
 {
-	float World_X = x + mPosition.x;
-	float World_Y = mPosition.y - y;
-	return D3DXVECTOR2(World_X, World_Y);
-}
-D3DXVECTOR2 CCamera::WorldToCam(float x, float y)
-{
-	float cam_x, cam_y; // vi tri can chuyen qua camera
-	cam_x = x - mPosition.x;
-	cam_y = mPosition.y - y;
-	return D3DXVECTOR2(cam_x, cam_y);
+	D3DXMATRIX matrix;
+	D3DXMatrixIdentity(&matrix);
+	matrix._22 = -1;
+	matrix._31 = -(int)mPosition.x;
+	matrix._32 = (int)mPosition.y;
+
+	D3DXVECTOR3 pos3(x, y, 1);
+	D3DXVECTOR4 MatrixResult;
+	D3DXVec3Transform(&MatrixResult, &pos3, &matrix);
+
+	D3DXVECTOR2 result = D3DXVECTOR2(MatrixResult.x, MatrixResult.y);
+	return result;
 }

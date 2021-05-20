@@ -6,18 +6,22 @@
 class CTexture
 {
 private:
-	int frameWidth, frameHeight, Column, Row;
+	int width, height;
+	int column, row;
 
 public:
-	int TotalFrames;
 	LPDIRECT3DTEXTURE9 Texture;
 
-	int GetFrameWidth();
-	int GetFrameHeight();
-	int GetColumn();
-	int GetRow();
+	int GetWidth() { return this->width; }
+	int GetHeight() { return this->height; }
+	int GetColumn() { return this->column; }
+	int GetRow() { return this->row; }
+	void SetColumn(int col) { this->column = col; }
+	void SetRow(int row) { this->row = row; }
+	int GetFrameWidth() { return this->width / this->column; }
+	int GetFrameHeight() { return this->height / this->row; }
 
-	CTexture(LPCSTR filePath, int column = 1, int row = 1, int totalframes = 1, int R = 255, int G = 0, int B = 255);
+	CTexture(LPCSTR filePath, int R = 255, int G = 0, int B = 255);
 	CTexture();
 	~CTexture();
 };

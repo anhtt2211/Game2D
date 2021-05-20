@@ -7,7 +7,7 @@
 class CGameObject
 {
 protected:
-	float x, y;
+	float x, y; // position of object in world 
 	float vx, vy;
 
 	int id;

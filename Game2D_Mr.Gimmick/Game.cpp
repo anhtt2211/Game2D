@@ -1,5 +1,4 @@
 #include "Game.h"
-
 CGame* CGame::__instance = NULL;
 
 CGame* CGame::GetInstance() {
@@ -49,10 +48,10 @@ void CGame::Init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
-	screen_width =	r.right;
+	screen_width = r.right;
 	screen_height = r.bottom;
 	cam = new CCamera(screen_width, screen_height);
-
+	SetCamPosition(0, screen_width);
 	//OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
@@ -61,7 +60,10 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
 {
-	D3DXVECTOR3 p(x, y, 0);
+	D3DXVECTOR2 centerCam = cam->Transform((float)(x + (right - left) / 2),(float)( y - (bottom - top) / 2));
+	D3DXVECTOR2 viewport(centerCam.x - (right - left) / 2, centerCam.y - (bottom - top) / 2);
+	D3DXVECTOR3 p(viewport.x, viewport.y, 0);
+
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -72,8 +74,15 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 
 void CGame::DrawFlip(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, float flip_X, float flip_Y)
 {
-	D3DXVECTOR3 p(x, y, 0);
-	D3DXVECTOR3 center((right - left) / 2, (bottom - top) / 2, 0);
+	D3DXVECTOR2 centerCam = cam->Transform(x + (right - left) / 2, y - (bottom - top) / 2);
+	D3DXVECTOR2 viewport(centerCam.x - (right - left) / 2, centerCam.y - (bottom - top) / 2);
+	D3DXVECTOR3 p(viewport.x, viewport.y, 0);
+	if (flip_X < 0)
+	{
+		p.x = -viewport.x;
+	}
+
+	D3DXVECTOR3 pCenter((right - left) / 2, (bottom - top) / 2, 0);
 
 	D3DXMatrixScaling(&matScale, flip_X, flip_Y, .0f);
 	spriteHandler->SetTransform(&matScale);
@@ -83,7 +92,7 @@ void CGame::DrawFlip(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, &center, &p, D3DCOLOR_XRGB(255, 255, 255));
+	spriteHandler->Draw(texture, &r, &pCenter, &p, D3DCOLOR_XRGB(255, 255, 255));
 
 	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, .0f);
 	spriteHandler->SetTransform(&matScale);

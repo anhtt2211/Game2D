@@ -30,8 +30,6 @@ public:
 	void SetState(int state);
 
 	void OnKeyDown(int keycode);
-	void OnKeyUp(int keycode);
-	void KeyState(BYTE* states);
 };
 
 

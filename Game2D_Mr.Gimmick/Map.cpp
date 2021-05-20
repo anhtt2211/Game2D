@@ -1,18 +1,24 @@
 #include "Map.h"
 #include <fstream>
-#define PATH_MAP1_TXT "Resources/tilemap_1new.txt"
 void CMap::LoadMap(int id)
 {
 	switch (id)
 	{
 	case ID_TEX_MAP1:
-		ReadMap(PATH_MAP1_TXT);
+		ReadMap(PATH_TILEMAP1_TXT);
+		break;
+	case ID_TEX_MAP2:
+		ReadMap(PATH_TILEMAP2_TXT);
+		break;
+	case ID_TEX_MAP7:
+		ReadMap(PATH_TILEMAP7_TXT);
 		break;
 	default:
 		break;
 	}
 	_texture = CTextureManager::GetInstance()->GetTexture(id);
-
+	_texture->SetColumn(this->ColumnTile);
+	_texture->SetRow(this->RowTile);
 	_sprite = new CSprite(_texture);
 }
 void CMap::ReadMap(LPCSTR filePath)
@@ -43,11 +49,10 @@ void CMap::RenderMap(CCamera* cam)
 	{
 		for (int j = start_x; j <= end_x; j++)
 		{
-			float x = (float)(-(int)(cam->GetPosition().x) % _texture->GetFrameWidth() + _texture->GetFrameWidth() * (j - start_x));
-			float y = (float)((int)(cam->GetPosition().y) % _texture->GetFrameHeight() + _texture->GetFrameHeight() * (start_y - i - 1));
+			float x = _texture->GetFrameWidth() * j;
+			float y = _texture->GetFrameHeight() * (i+1);
 			if (i >= 0 && i < RowMap && j >= 0 && j < ColumnMap)
-				_sprite->DrawFrame(TileMap[RowMap - 1 - i][j], x, y + 1);
+				_sprite->DrawFrame(TileMap[RowMap - 1 - i][j], x, y);
 		}
 	}
-	//DebugOutTitle("%d, %d", (int)cam->GetPosition().x, colunm);
 }

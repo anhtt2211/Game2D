@@ -7,8 +7,9 @@
 #include <vector>
 #include "Debug.h"
 
-#define GIMMICK_TEXTURE_PATH "./Resources/Images/Gimmick/Gimmick.png"
-#define MAP1_TEXTURE_PATH "./Resources/Images/Gimmick/bg.png"
+#define PATH_TILEMAP1_TXT "Resources/Map/Level1/TileMap_1.txt"
+#define PATH_TILEMAP2_TXT "Resources/Map/Level2/TileMap_2.txt"
+#define PATH_TILEMAP7_TXT "Resources/Map/Level7/TileMap_7.txt"
 
 class CMap
 {

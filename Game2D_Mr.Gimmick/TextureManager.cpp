@@ -31,7 +31,8 @@ CTexture* CTextureManager::GetTexture(unsigned int i)
 }
 void CTextureManager::LoadResources()
 {
-	AddTextures(ID_TEX_MAP1, new CTexture(PATH_TEX_MAP1, 9, 8, 72));
+	AddTextures(ID_TEX_MAP1, new CTexture(PATH_TEX_MAP1));
 	AddTextures(ID_TEX_MAP2, new CTexture(PATH_TEX_MAP2));
-	AddTextures(ID_TEX_GIMMICK, new CTexture(PATH_TEX_GIMMICK, 1, 1, 1, 0, 0, 255));
+	AddTextures(ID_TEX_MAP7, new CTexture(PATH_TEX_MAP7));
+	AddTextures(ID_TEX_GIMMICK, new CTexture(PATH_TEX_GIMMICK, 0, 0, 255));
 }

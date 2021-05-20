@@ -26,8 +26,8 @@ public:
 
 	void Update(D3DXVECTOR2 mainPlayerPos, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen);
 
-	D3DXVECTOR2 CamToWorld(float x, float y);
-	D3DXVECTOR2 WorldToCam(float x, float y);
+
+	D3DXVECTOR2 Transform(float x, float y);
 
 	float GetWidth() { return camWidth; }
 	float GetHeight() { return camHeight; }

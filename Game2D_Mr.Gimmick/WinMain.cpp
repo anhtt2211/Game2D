@@ -22,9 +22,6 @@
 #define WINDOW_CLASS_NAME "WindowClassName"
 #define WINDOW_TITLE "Mr.Gimmick"
 
-#define SCREEN_WIDTH 360.0f
-#define SCREEN_HEIGHT 240.0f
-
 #define D3DCOLOR_WHITE D3DCOLOR_XRGB(255, 255, 255)
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(200,200,255)
@@ -204,7 +201,7 @@ void LoadResources()
 	CGimmick::AddAnimation(504);	//jumping right
 	CGimmick::AddAnimation(505);	//jumping left
 
-	gimmick->SetPosition(100.0f, 150.0f);
+	gimmick->SetPosition(100.0f, 500.0f);
 }
 
 void Update(DWORD dt)
@@ -212,12 +209,10 @@ void Update(DWORD dt)
 	gimmick->Update(dt);
 	float x = gimmick->GetX();
 	float y = gimmick->GetY();
-	mainPlayer = game->GetInstance()->CamToWorld(x, y);
-	mapPos = D3DXVECTOR2(0, 384);
-	mapDimen = D3DXVECTOR2(1024, 384);
+	mainPlayer = D3DXVECTOR2(x, y);
+	mapPos = D3DXVECTOR2(0, 768);
+	mapDimen = D3DXVECTOR2(2048, 768);
 	game->UpdateCam(mainPlayer, mapPos, mapDimen);
-	D3DXVECTOR2 temp = game->GetPosition();
-	gimmick->SetPosition(mainPlayer.x - temp.x, temp.y - mainPlayer.y);
 }
 	
 /*
@@ -290,10 +285,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = CGame::GetInstance();
 	game->Init(hwnd);
 	SetDebugWindow(hwnd);
-	game->SetCamPosition(0, game->GetScreenHeight());
+	map->LoadMap(ID_TEX_MAP1);
 	game->InitKeyboard(keyHandler);
 	LoadResources();
-	map->LoadMap(ID_TEX_MAP1);
 	Run();
 
 	return 0;

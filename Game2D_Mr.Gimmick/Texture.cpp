@@ -1,39 +1,19 @@
 #include "Texture.h"
 
-int CTexture::GetFrameWidth()
+CTexture::CTexture(LPCSTR filePath, int R, int G, int B)
 {
-	return frameWidth;
-}
-
-int CTexture::GetFrameHeight()
-{
-	return frameHeight;
-}
-
-int CTexture::GetColumn()
-{
-	return Column;
-}
-
-int CTexture::GetRow()
-{
-	return Row;
-}
-
-CTexture::CTexture(LPCSTR filePath, int column, int row, int totalframes, int R, int G, int B)
-{
-	Column = column;
-	Row = row;
-	TotalFrames = totalframes;
-
+	
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFileA(filePath, &info);
 	if (result != D3D_OK)
 	{
 		return;
-	}
-	this->frameWidth = info.Width / Column;
-	this->frameHeight = info.Height / Row;
+	};
+
+	this->width = info.Width;
+	this->height = info.Height;
+	this->column = 1;
+	this->row = 1;
 
 	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
 

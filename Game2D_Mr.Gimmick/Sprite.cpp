@@ -19,6 +19,7 @@ void CSprite::Draw(float x, float y)
 	}
 	else
 	{
+		x = -x;
 		game->DrawFlip(x, y, texture->Texture, left, top, right, bottom, -1.0f, 1.0f);
 	}
 }

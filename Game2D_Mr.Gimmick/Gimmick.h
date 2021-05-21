@@ -57,8 +57,6 @@ public:
 	void CollisionWithBrick(const vector<LPGAMEOBJECT>* coObjects = NULL);
 
 	void OnKeyDown(int keycode);
-	void OnKeyUp(int keycode);
-	void KeyState(BYTE* states);
 };
 
 

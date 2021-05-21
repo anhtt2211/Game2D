@@ -47,8 +47,6 @@ public:
 	void SetCamPosition(float x, float y) { cam->SetPosition(x, y); }
 	RECT GetCamBound() { return cam->GetBound(); }
 	void UpdateCam(D3DXVECTOR2 mainPlayer, D3DXVECTOR2 mapPos, D3DXVECTOR2 mapDimen) { cam->Update(mainPlayer, mapPos, mapDimen);}
-	D3DXVECTOR2 CamToWorld(float x, float y) { return cam->CamToWorld(x, y); }
-	D3DXVECTOR2 WorldToCam(float x, float y) { return cam->WorldToCam(x, y); }
 	CCamera* GetCamera() { return cam; }
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }

@@ -209,45 +209,46 @@ void LoadResources()
 	gimmick->AddAnimation(504);	//jumping right
 	gimmick->AddAnimation(505);	//jumping left
 
-	gimmick->SetPosition(100.0f, 150.0f);
+	gimmick->SetPosition(100.0f, 550.0f);
 	objects.push_back(gimmick);
 #pragma endregion
 
 #pragma region goomba
-	//goomba walk
-	sprites->Add(20001, 1, 0, 1 + 18, 18, texGoomba);
-	sprites->Add(20002, 19, 0, 19 + 18, 18, texGoomba);
-	sprites->Add(20003, 37, 0, 37 + 18, 18, texGoomba);
+	////goomba walk
+	//sprites->Add(20001, 1, 0, 1 + 18, 18, texGoomba);
+	//sprites->Add(20002, 19, 0, 19 + 18, 18, texGoomba);
+	//sprites->Add(20003, 37, 0, 37 + 18, 18, texGoomba);
 
-	ani = new CAnimation(100);
-	ani->Add(20001);
-	ani->Add(20002);
-	ani->Add(20003);
-	animations->Add(701, ani);
+	//ani = new CAnimation(100);
+	//ani->Add(20001);
+	//ani->Add(20002);
+	//ani->Add(20003);
+	//animations->Add(701, ani);
 
-	for (int i = 0; i < 4; i++) {
-		goomba = new CGoomba();
-		goomba->AddAnimation(701);
-		goomba->SetPosition(200.0f + i * 60, 150.0f);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
-	}
+	//for (int i = 0; i < 2; i++) {
+	//	goomba = new CGoomba();
+	//	goomba->AddAnimation(701);
+	//	goomba->SetPosition(350.0f + i * 60, 430.0f);
+	//	goomba->SetState(GOOMBA_STATE_WALKING);
+	//	objects.push_back(goomba);
+	//}
 #pragma endregion
 
-//#pragma region brick
-//	sprites->Add(30001, 0, 32, 0 + 16, 32 + 16, texBrick);
-//
-//	ani = new CAnimation(100);
-//	ani->Add(30001);
-//	animations->Add(801, ani);
-//	for (int i = 0; i < 30; i++)
-//	{
-//		CBrick* brick = new CBrick();
-//		brick->AddAnimation(801);
-//		brick->SetPosition(i, 150.0f);
-//		objects.push_back(brick);
-//	}
-//#pragma endregion
+#pragma region brick
+
+	sprites->Add(30001, 408, 225, 424, 241, texBrick);
+
+	ani = new CAnimation(100);
+	ani->Add(30001);
+	animations->Add(801, ani);
+	for (int i = 0; i < 1000; i++)
+	{
+		CBrick* brick = new CBrick();
+		brick->AddAnimation(801);
+		brick->SetPosition(50.0f + i, 430.0f);
+		objects.push_back(brick);
+	}
+#pragma endregion
 }
 
 void Update(DWORD dt)

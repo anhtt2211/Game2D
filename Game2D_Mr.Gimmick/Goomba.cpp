@@ -14,8 +14,8 @@ void CGoomba::GetBoundingBox(float& l, float& t, float& r, float& b) {
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CGameObject::Update(dt, coObjects);
 
-	/*x += dx;
-	y += dy;*/
+	x += dx;
+	y += dy;
 
 	if (vx < 0 && x < 100) {
 		x = 100;

@@ -73,8 +73,8 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> * coObjects)
 	dx = vx * dt;
 	dy = vy * dt;
 
-	x += dx;
-	y += dy;
+	/*x += dx;
+	y += dy;*/
 }
 
 void CGameObject::Render()

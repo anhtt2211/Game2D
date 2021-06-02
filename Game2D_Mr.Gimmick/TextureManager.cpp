@@ -37,5 +37,5 @@ void CTextureManager::LoadResources()
 	AddTextures(ID_TEX_GIMMICK, new CTexture(PATH_TEX_GIMMICK, 0, 0, 255));
 	//AddTextures(ID_TEX_GIMMICK, new CTexture(PATH_TEX_GIMMICK, 1, 1, 1, 0, 0, 255));
 	AddTextures(ID_TEX_GOOMBA, new CTexture(PATH_TEX_GOOMBA, 57, 189, 255));
-	//AddTextures(ID_TEX_BRICK, new CTexture(PATH_TEX_BRICK, 1, 1, 1, 0, 0, 0));
+	AddTextures(ID_TEX_BRICK, new CTexture(PATH_TEX_BRICK, 176, 224, 248));
 }

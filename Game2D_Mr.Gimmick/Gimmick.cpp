@@ -3,102 +3,48 @@
 #include "Debug.h"
 
 void CGimmick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	//CGameObject::Update(dt);
-
-	//// simple fall down
-	//vy += GIMMICK_GRAVITY * dt;
-
-	//vector<LPCOLLISIONEVENT> coEvents;
-	//vector<LPCOLLISIONEVENT> coEventsResult;
-
-	//coEvents.clear();
-
-	//// turn off collision when die 
-	//if (state != GIMMICK_STATE_DIE) {
-	//	CalcPotentialCollisions(coObjects, coEvents);
-	//}
-
-	//// reset untouchable timer if untouchable time has passed
-	//if (GetTickCount() - untouchable_start > GIMMICK_UNTOUCHABLE_TIME) {
-	//	untouchable_start = 0;
-	//	untouchable = 0;
-	//}
-
-	//// No collision occured, proceed normally
-	//if (coEvents.size() == 0) {
-	//	x += dx;
-	//	y += dy;
-	//}
-	//else {
-	//	float min_tx, min_ty, nx = 0, ny;
-
-	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-	//	// block 
-	//	x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-	//	y += min_ty * dy + ny * 0.4f;
-
-	//	if (nx != 0) {
-	//		vx = 0;
-	//	}
-	//	if (ny != 0) {
-	//		vy = 0;
-	//	}
-
-	//	// Collision logic with Goombas
-	//	for (UINT i = 0; i < coEventsResult.size(); i++) {
-	//		LPCOLLISIONEVENT e = coEventsResult[i];
-
-	//		// if e->obj is Goomba 
-	//		if (dynamic_cast<CGoomba*>(e->obj)) {	
-	//			CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
-	//			// jump on top >> kill Goomba and deflect a bit 
-	//			if (e->ny < 0)
-	//			{
-	//				if (goomba->GetState() != GOOMBA_STATE_DIE)
-	//				{
-	//					goomba->SetState(GOOMBA_STATE_DIE);
-	//					vy = -GIMMICK_JUMP_DEFLECT_SPEED;
-	//				}
-	//			}
-	//			else if (e->nx != 0)
-	//			{
-	//				if (untouchable == 0)
-	//				{
-	//					if (goomba->GetState() != GOOMBA_STATE_DIE)
-	//					{
-	//						if (level > GIMMICK_LEVEL_SMALL)
-	//						{
-	//							level = GIMMICK_LEVEL_SMALL;
-	//							StartUntouchable();
-	//						}
-	//						else
-	//							SetState(GIMMICK_STATE_DIE);
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-	//// clean up collision events
-	//for (UINT i = 0; i < coEvents.size(); i++) {
-	//	delete coEvents[i];
-	//}
-
+	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
 	// simple fall down
 	vy -= GIMMICK_GRAVITY;
-	if (y < 50)
-	{
-		vy = 0;
-		y = 50;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	if (state != GIMMICK_STATE_DIE) {
+		CalcPotentialCollisions(coObjects, coEvents);
 	}
-	if (y > 768) y = 768;
-	//if (vx > 0 && x > SCREEN_WIDTH -30) x = SCREEN_WIDTH - 10;
-	if (vx < 0 && x < 0) x = 0;
+
+	// reset untouchable timer if untouchable time has passed
+	if (GetTickCount() - untouchable_start > GIMMICK_UNTOUCHABLE_TIME) {
+		untouchable_start = 0;
+		untouchable = 0;
+	}
+
+	//No collision occured, proceed normally
+	if (coEvents.size() == 0) {
+		x += dx;
+		y += dy;
+	}
+	else {
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		//block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CGimmick::Render() {

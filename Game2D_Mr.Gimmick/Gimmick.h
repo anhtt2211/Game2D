@@ -58,7 +58,3 @@ public:
 
 	void OnKeyDown(int keycode);
 };
-
-
-
-

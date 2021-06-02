@@ -20,7 +20,7 @@ using namespace std;
 #define PATH_TEX_MAP7 "./Resources/Map/Level7/Tiles.png"
 #define PATH_TEX_GOOMBA "./Resources/Images/Enemies_Bosses/Enemies .png"
 #define PATH_TEX_GIMMICK "./Resources/Gimmick.png"
-#define PATH_TEX_BRICK "./Resources/tiles.png"
+#define PATH_TEX_BRICK "./Resources/misc.png"
 /*
 	Manage texture database
 */
